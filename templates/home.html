@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Home</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = io();
+    
+        socket.on('notification', function(message) {
+            var notifications = document.getElementById('notifications');
+            var p = document.createElement('p');
+            p.textContent = message;
+            notifications.appendChild(p);
+        });
+
+        function sendMessage() {
+            var message = document.getElementById("notification").value;
+            socket.emit('message', message);
+            message.value = "";
+        }
+    </script>
+    
+</head>
+<body>
+    <h1>Welcome, {{ username }}!</h1>
+    <p>Your email: {{ email }}</p>
+    <p>This is your home page.</p>
+    <input type="text" id="notification" placeholder="Input">
+    <button onclick="sendMessage()">Send</button>
+    <div id="notifications"></div>
+    <br>
+    <a href="{{ url_for('index') }}">Back to Index</a>
+</body>
+</html>
